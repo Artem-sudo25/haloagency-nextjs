@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# HaloAgency.cz - Marketing Agency Website
 
-## Getting Started
+Современный сайт маркетингового агентства для русскоязычного бизнеса в Праге.
 
-First, run the development server:
+## 🚀 Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework:** Next.js 16.0.3 (App Router)
+- **React:** 19.2.0
+- **Styling:** Tailwind CSS 4
+- **UI Components:** Shadcn/ui
+- **Forms:** React Hook Form + Zod
+- **Icons:** Lucide React
+- **Fonts:** Inter (с Cyrillic) + JetBrains Mono
+
+## 📁 Project Structure
+
+```
+my-first-site/
+├── app/
+│   ├── components/
+│   │   ├── forms/
+│   │   │   └── ContactFormComponent.jsx
+│   │   ├── layout/
+│   │   │   ├── Header.jsx
+│   │   │   └── Footer.jsx
+│   │   ├── sections/
+│   │   │   ├── Hero.jsx
+│   │   │   ├── ProblemSolution.jsx
+│   │   │   ├── ServicesOverview.jsx
+│   │   │   ├── Pricing.jsx
+│   │   │   ├── Process.jsx
+│   │   │   ├── Testimonials.jsx
+│   │   │   └── FinalCTA.jsx
+│   │   └── ui/ (Shadcn components)
+│   ├── contact/page.js
+│   ├── web-development/page.js
+│   ├── tracking/page.js
+│   ├── online-advertising/page.js
+│   ├── layout.js
+│   ├── page.js
+│   └── globals.css
+├── public/images/
+├── CLAUDE.md
+├── PLANNING.md
+└── TASKS.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎨 Brand Colors
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```css
+Navy: #1E3A5F       /* Authority, trust */
+Coral: #FF6B6B      /* Energy, action, CTAs */
+Gold: #F7B731       /* Success, premium */
+Off-white: #F8F9FA  /* Backgrounds */
+Gray: #4A5568       /* Body text */
+Light-gray: #E2E8F0 /* Borders */
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📄 Pages
 
-## Learn More
+### ✅ Completed:
+1. **Homepage** (/) - 7 sections: Hero, Problem/Solution, Services, Pricing, Process, Testimonials, CTA
+2. **Contact** (/contact) - Validated contact form
+3. **Web Development** (/web-development) - 6 industry solutions
+4. **Tracking & Analytics** (/tracking) - Non-technical explanations
+5. **Online Advertising** (/online-advertising) - With realistic expectations
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Installation
+```bash
+npm install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Development
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000)
 
-## Deploy on Vercel
+### Build
+```bash
+npm run build
+npm start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎯 Key Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- ✅ Mobile-responsive design
+- ✅ Server-side rendering (SSR)
+- ✅ Form validation (React Hook Form + Zod)
+- ✅ Brand-consistent colors
+- ✅ Russian language with Cyrillic support
+- ✅ Shadcn/ui components
+- ✅ Clean, modern UI/UX
+
+## 🔜 TODO
+
+- [ ] Connect form to API endpoint
+- [ ] Add Google Analytics (GA4)
+- [ ] Optimize images
+- [ ] Add more visual content
+- [ ] Czech and English translations
+- [ ] Deploy to Vercel
+- [ ] SEO optimization
+
+## 📖 Documentation
+
+- **CLAUDE.md** - Project guide and design system
+- **PLANNING.md** - Technical architecture
+- **TASKS.md** - Build tasks and milestones
+
+---
+
+**Built with Next.js 16 + React 19**
