@@ -35,7 +35,7 @@ export async function POST(request) {
     // Send email using Resend
     const emailData = await resend.emails.send({
       from: 'HaloAgency <noreply@haloagency.cz>',
-      to: process.env.CONTACT_EMAIL || 'info@haloagency.cz',
+      to: process.env.CONTACT_EMAIL || 'artkritski@gmail.com',
       replyTo: validatedData.email,
       subject: `Новая заявка: ${interestLabel}`,
       html: `
