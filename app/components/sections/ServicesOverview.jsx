@@ -165,7 +165,7 @@ export default function ServicesOverview() {
                 size="lg"
                 className="bg-coral hover:bg-[#FF5252] text-white px-8 py-6 text-lg font-semibold hover:scale-105 transition-all"
               >
-                Посмотреть комплексные решения
+                Комплексные решения
               </Button>
             </Link>
           </div>
