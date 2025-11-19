@@ -48,7 +48,7 @@ export default function FinalCTA() {
               size="lg"
               className="bg-coral hover:bg-[#FF5252] text-white px-12 py-7 text-xl font-bold rounded-lg shadow-2xl hover:shadow-coral/50 transition-all hover:scale-110"
             >
-              Получить бесплатную консультацию
+              Хочу бесплатную консультацию
             </Button>
           </Link>
         </motion.div>
