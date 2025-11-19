@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -11,14 +13,34 @@ import {
   Palette,
   Smartphone,
 } from 'lucide-react';
-
-export const metadata = {
-  title: 'Разработка сайтов Прага - HaloAgency',
-  description:
-    'Современные сайты для вашего бизнеса. WordPress, Next.js. Ориентированы на конверсии, с аналитикой и автоматизацией.',
-};
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 export default function WebDevelopmentPage() {
+  const { ref: heroRef, inView: heroInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const { ref: philosophyRef, inView: philosophyInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const { ref: industryRef, inView: industryInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const { ref: techRef, inView: techInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const { ref: pricingRef, inView: pricingInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
   const industries = [
     {
       icon: '💇',
@@ -149,44 +171,92 @@ export default function WebDevelopmentPage() {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+      },
+    },
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero */}
       <section className="bg-gradient-to-br from-navy via-[#1a3354] to-[#162840] py-20">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+        <div className="max-w-6xl mx-auto px-4 text-center" ref={heroRef}>
+          <motion.h1
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
+            initial={{ opacity: 0, y: 20 }}
+            animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6 }}
+          >
             Сайты, которые продают.{' '}
             <span className="text-coral">Не просто выглядят красиво.</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto mb-8">
+          </motion.h1>
+          <motion.p
+            className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             Ориентированы на конверсии, с аналитикой и автоматизацией для вашего
             конкретного бизнеса
-          </p>
-          <Link href="/contact">
-            <Button
-              size="lg"
-              className="bg-coral hover:bg-[#FF5252] text-white px-12 py-6 text-lg"
-            >
-              Получить консультацию
-            </Button>
-          </Link>
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={heroInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <Link href="/contact">
+              <Button
+                size="lg"
+                className="bg-coral hover:bg-[#FF5252] text-white px-12 py-6 text-lg hover:scale-110 transition-all"
+              >
+                Получить консультацию
+              </Button>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
       {/* Philosophy */}
       <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-navy mb-4">
+        <div className="max-w-6xl mx-auto px-4" ref={philosophyRef}>
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={philosophyInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
               Почему "красивый сайт" недостаточно
             </h2>
             <p className="text-xl text-gray max-w-2xl mx-auto">
               Мы строим сайты, которые приносят результаты
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="p-8 text-center hover:shadow-xl transition">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            animate={philosophyInView ? 'visible' : 'hidden'}
+          >
+            <motion.div variants={itemVariants}>
+              <Card className="p-8 text-center hover:shadow-xl hover:scale-105 transition-all duration-300 h-full">
               <Target className="w-16 h-16 text-coral mx-auto mb-4" />
               <h3 className="text-xl font-bold text-navy mb-3">
                 Ориентированный на конверсии дизайн
@@ -196,8 +266,10 @@ export default function WebDevelopmentPage() {
                 клиентом
               </p>
             </Card>
+            </motion.div>
 
-            <Card className="p-8 text-center hover:shadow-xl transition">
+            <motion.div variants={itemVariants}>
+              <Card className="p-8 text-center hover:shadow-xl hover:scale-105 transition-all duration-300 h-full">
               <BarChart3 className="w-16 h-16 text-gold mx-auto mb-4" />
               <h3 className="text-xl font-bold text-navy mb-3">
                 Построен для аналитики
@@ -206,8 +278,10 @@ export default function WebDevelopmentPage() {
                 GA4, GTM, отслеживание конверсий - знаем, что работает, что нет
               </p>
             </Card>
+            </motion.div>
 
-            <Card className="p-8 text-center hover:shadow-xl transition">
+            <motion.div variants={itemVariants}>
+              <Card className="p-8 text-center hover:shadow-xl hover:scale-105 transition-all duration-300 h-full">
               <Zap className="w-16 h-16 text-success-green mx-auto mb-4" />
               <h3 className="text-xl font-bold text-navy mb-3">
                 Специфические функции по отраслям
@@ -216,25 +290,37 @@ export default function WebDevelopmentPage() {
                 Не общий шаблон. Решения для вашей конкретной индустрии
               </p>
             </Card>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* Industry Solutions */}
       <section className="py-20 bg-off-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-navy mb-4">
+        <div className="max-w-6xl mx-auto px-4" ref={industryRef}>
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={industryInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
               Решения для вашего бизнеса
             </h2>
             <p className="text-xl text-gray max-w-2xl mx-auto">
               Мы знаем специфику разных отраслей
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            animate={industryInView ? 'visible' : 'hidden'}
+          >
             {industries.map((industry, index) => (
-              <Card key={index} className="p-8 hover:shadow-xl transition">
+              <motion.div key={index} variants={itemVariants}>
+                <Card className="p-8 hover:shadow-xl hover:scale-105 transition-all duration-300 h-full">
                 <div className="text-5xl mb-4">{industry.icon}</div>
                 <h3 className="text-2xl font-bold text-navy mb-3">
                   {industry.name}
@@ -266,53 +352,76 @@ export default function WebDevelopmentPage() {
                   {industry.price}
                 </div>
               </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Technologies */}
       <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-navy mb-4">
+        <div className="max-w-6xl mx-auto px-4" ref={techRef}>
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={techInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
               Современные технологии
             </h2>
             <p className="text-xl text-gray max-w-2xl mx-auto">
               Используем проверенные инструменты
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-4 gap-6"
+            variants={containerVariants}
+            initial="hidden"
+            animate={techInView ? 'visible' : 'hidden'}
+          >
             {technologies.map((tech, index) => (
-              <Card key={index} className="p-6 text-center hover:shadow-lg transition">
-                <Code className="w-12 h-12 text-navy mx-auto mb-3" />
-                <h3 className="font-bold text-navy mb-2">{tech.name}</h3>
-                <p className="text-gray text-sm">{tech.description}</p>
-              </Card>
+              <motion.div key={index} variants={itemVariants}>
+                <Card className="p-6 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 h-full">
+                  <Code className="w-12 h-12 text-navy mx-auto mb-3" />
+                  <h3 className="font-bold text-navy mb-2">{tech.name}</h3>
+                  <p className="text-gray text-sm">{tech.description}</p>
+                </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Pricing */}
       <section className="py-20 bg-off-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-navy mb-4">Цены</h2>
+        <div className="max-w-6xl mx-auto px-4" ref={pricingRef}>
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={pricingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">Цены</h2>
             <p className="text-xl text-gray max-w-2xl mx-auto">
               Прозрачная стоимость без скрытых платежей
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            animate={pricingInView ? 'visible' : 'hidden'}
+          >
             {pricingTiers.map((tier, index) => (
-              <Card
-                key={index}
-                className={`p-8 ${
-                  tier.recommended ? 'border-4 border-coral shadow-2xl' : ''
-                }`}
-              >
+              <motion.div key={index} variants={itemVariants}>
+                <Card
+                  className={`p-8 hover:scale-105 transition-transform duration-300 h-full ${
+                    tier.recommended ? 'border-4 border-coral shadow-2xl' : ''
+                  }`}
+                >
                 {tier.recommended && (
                   <div className="bg-coral text-white text-center py-2 px-4 rounded-full text-sm font-bold mb-4 -mt-4">
                     Рекомендуем
@@ -350,26 +459,33 @@ export default function WebDevelopmentPage() {
                   </Button>
                 </Link>
               </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-navy to-[#1a3354]">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+        <motion.div
+          className="max-w-4xl mx-auto px-4 text-center"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="text-4xl font-bold text-white mb-6">
             Готовы получить сайт, который приносит клиентов?
           </h2>
           <Link href="/contact">
             <Button
               size="lg"
-              className="bg-coral hover:bg-[#FF5252] text-white px-12 py-6 text-lg"
+              className="bg-coral hover:bg-[#FF5252] text-white px-12 py-6 text-lg hover:scale-110 transition-all"
             >
               Обсудить проект
             </Button>
           </Link>
-        </div>
+        </motion.div>
       </section>
     </div>
   );

@@ -1,11 +1,9 @@
+'use client';
+
 import ContactFormComponent from '../components/forms/ContactFormComponent';
 import { Card } from '@/components/ui/card';
 import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
-
-export const metadata = {
-  title: 'Контакты - HaloAgency | Свяжитесь с нами',
-  description: 'Свяжитесь с HaloAgency для бесплатной консультации по онлайн-рекламе, разработке сайтов и аналитике в Праге.',
-};
+import { motion } from 'framer-motion';
 
 export default function ContactPage() {
   const contactInfo = [
@@ -39,19 +37,29 @@ export default function ContactPage() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-navy via-[#1a3354] to-[#162840] py-20">
-        <div className="max-w-6xl mx-auto px-4 text-center">
+        <motion.div
+          className="max-w-6xl mx-auto px-4 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
             Свяжитесь с нами
           </h1>
           <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto">
             Бесплатная консультация + аудит вашей текущей ситуации
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Main Content */}
       <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
+        <motion.div
+          className="max-w-6xl mx-auto px-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Contact Form */}
             <div className="lg:col-span-2">
@@ -137,13 +145,19 @@ export default function ContactPage() {
               </Card>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* FAQ Section */}
       <section className="py-20 bg-off-white">
-        <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-12 text-center">
+        <motion.div
+          className="max-w-4xl mx-auto px-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
             Частые вопросы
           </h2>
           <div className="space-y-6">
@@ -172,7 +186,7 @@ export default function ContactPage() {
               </p>
             </Card>
           </div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );

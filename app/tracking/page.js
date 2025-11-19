@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -9,14 +11,26 @@ import {
   Check,
   TrendingUp,
 } from 'lucide-react';
-
-export const metadata = {
-  title: 'Аналитика и трекинг - HaloAgency | GA4, Server-side Tracking',
-  description:
-    'Точная аналитика и трекинг для вашего бизнеса. GA4, server-side tracking, attribution. Знайте точно, что работает.',
-};
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 export default function TrackingPage() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  };
   const problems = [
     {
       icon: <AlertTriangle className="w-12 h-12 text-warning-orange" />,
@@ -84,7 +98,13 @@ export default function TrackingPage() {
     <div className="min-h-screen">
       {/* Hero */}
       <section className="bg-gradient-to-br from-navy via-[#1a3354] to-[#162840] py-20">
-        <div className="max-w-6xl mx-auto px-4 text-center">
+        <motion.div
+          className="max-w-6xl mx-auto px-4 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
             Без измерения нет результатов.{' '}
             <span className="text-coral">Только догадки.</span>
@@ -96,53 +116,77 @@ export default function TrackingPage() {
           <Link href="/contact">
             <Button
               size="lg"
-              className="bg-coral hover:bg-[#FF5252] text-white px-12 py-6 text-lg"
+              className="bg-coral hover:bg-[#FF5252] text-white px-12 py-6 text-lg hover:scale-110 transition-all"
             >
               Настроить аналитику
             </Button>
           </Link>
-        </div>
+        </motion.div>
       </section>
 
       {/* Problem Scenarios */}
       <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
+        <motion.div
+          className="max-w-6xl mx-auto px-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-navy mb-4">Знаете это?</h2>
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">Знаете это?</h2>
             <p className="text-xl text-gray max-w-2xl mx-auto">
               Эти проблемы встречаются у 80% бизнесов
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {problems.map((problem, index) => (
-              <Card
-                key={index}
-                className="p-8 hover:shadow-xl transition border-l-4 border-warning-orange"
-              >
-                <div className="mb-4">{problem.icon}</div>
-                <h3 className="text-xl font-bold text-navy mb-3">
-                  "{problem.scenario}"
-                </h3>
-                <p className="text-gray">{problem.description}</p>
-              </Card>
+              <motion.div key={index} variants={itemVariants}>
+                <Card className="p-8 hover:shadow-xl hover:scale-105 transition-all duration-300 border-l-4 border-warning-orange h-full">
+                  <div className="mb-4">{problem.icon}</div>
+                  <h3 className="text-xl font-bold text-navy mb-3">
+                    "{problem.scenario}"
+                  </h3>
+                  <p className="text-gray">{problem.description}</p>
+                </Card>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Why Tracking Matters - Analogy */}
       <section className="py-20 bg-off-white">
-        <div className="max-w-6xl mx-auto px-4">
+        <motion.div
+          className="max-w-6xl mx-auto px-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-navy mb-4">
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
               Почему аналитика критична
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {/* Bad Tracking */}
-            <Card className="p-8 bg-red-50 border-2 border-red-200">
+            <motion.div variants={itemVariants}>
+              <Card className="p-8 bg-red-50 border-2 border-red-200 h-full">
               <div className="flex items-center gap-3 mb-6">
                 <EyeOff className="w-12 h-12 text-red-500" />
                 <h3 className="text-2xl font-bold text-navy">
@@ -173,9 +217,11 @@ export default function TrackingPage() {
                 </p>
               </div>
             </Card>
+            </motion.div>
 
             {/* Good Tracking */}
-            <Card className="p-8 bg-green-50 border-2 border-success-green">
+            <motion.div variants={itemVariants}>
+              <Card className="p-8 bg-green-50 border-2 border-success-green h-full">
               <div className="flex items-center gap-3 mb-6">
                 <Navigation className="w-12 h-12 text-success-green" />
                 <h3 className="text-2xl font-bold text-navy">
@@ -206,15 +252,22 @@ export default function TrackingPage() {
                 </p>
               </div>
             </Card>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* What We Track - 3 Levels */}
       <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
+        <motion.div
+          className="max-w-6xl mx-auto px-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-navy mb-4">
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
               Что мы отслеживаем
             </h2>
             <p className="text-xl text-gray max-w-2xl mx-auto">
@@ -222,14 +275,20 @@ export default function TrackingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {trackingLevels.map((level, index) => (
-              <Card
-                key={index}
-                className={`p-8 ${
-                  level.recommended ? 'border-4 border-coral shadow-2xl' : ''
-                }`}
-              >
+              <motion.div key={index} variants={itemVariants}>
+                <Card
+                  className={`p-8 hover:scale-105 transition-transform duration-300 h-full ${
+                    level.recommended ? 'border-4 border-coral shadow-2xl' : ''
+                  }`}
+                >
                 {level.recommended && (
                   <div className="bg-coral text-white text-center py-2 px-4 rounded-full text-sm font-bold mb-4 -mt-4">
                     Рекомендуем
@@ -252,16 +311,23 @@ export default function TrackingPage() {
                   ))}
                 </ul>
               </Card>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Attribution Problem */}
       <section className="py-20 bg-off-white">
-        <div className="max-w-6xl mx-auto px-4">
+        <motion.div
+          className="max-w-6xl mx-auto px-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-navy mb-4">
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
               Почему рекламные платформы вас обманывают
             </h2>
             <p className="text-xl text-gray max-w-3xl mx-auto">
@@ -330,12 +396,18 @@ export default function TrackingPage() {
               </p>
             </div>
           </Card>
-        </div>
+        </motion.div>
       </section>
 
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-navy to-[#1a3354]">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+        <motion.div
+          className="max-w-4xl mx-auto px-4 text-center"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="text-4xl font-bold text-white mb-6">
             Готовы видеть реальную картину?
           </h2>
@@ -345,12 +417,12 @@ export default function TrackingPage() {
           <Link href="/contact">
             <Button
               size="lg"
-              className="bg-coral hover:bg-[#FF5252] text-white px-12 py-6 text-lg"
+              className="bg-coral hover:bg-[#FF5252] text-white px-12 py-6 text-lg hover:scale-110 transition-all"
             >
               Получить консультацию
             </Button>
           </Link>
-        </div>
+        </motion.div>
       </section>
     </div>
   );

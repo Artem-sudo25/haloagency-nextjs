@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -15,7 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { CheckCircle2, Loader2 } from 'lucide-react';
+import { CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
+import { trackEvent } from '@/app/components/GoogleTagManager';
 
 // Validation schema
 const contactSchema = z.object({
@@ -27,8 +29,10 @@ const contactSchema = z.object({
 });
 
 export default function ContactFormComponent() {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState(null);
 
   const {
     register,
@@ -42,32 +46,69 @@ export default function ContactFormComponent() {
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
+    setError(null);
 
-    // Simulate API call for now
-    // TODO: Implement actual API call to /api/contact
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      // Send to API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-    console.log('Form data:', data);
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    reset();
+      const result = await response.json();
 
-    // Reset success message after 5 seconds
-    setTimeout(() => {
-      setIsSuccess(false);
-    }, 5000);
+      if (!response.ok) {
+        throw new Error(result.message || 'Ошибка отправки формы');
+      }
+
+      // Track successful submission in GTM
+      trackEvent('form_submit', {
+        form_type: 'contact',
+        interest: data.interest,
+      });
+
+      // Show success message
+      setIsSuccess(true);
+      reset();
+
+      // Redirect to thank you page after 2 seconds
+      setTimeout(() => {
+        router.push('/thank-you');
+      }, 2000);
+    } catch (err) {
+      console.error('Form submission error:', err);
+      setError(err.message || 'Произошла ошибка. Пожалуйста, попробуйте позже.');
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="max-w-2xl mx-auto">
+      {/* Error Message */}
+      {error && (
+        <div className="bg-red-50 border-2 border-red-500 rounded-lg p-4 mb-6 flex items-start gap-3">
+          <AlertCircle className="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" />
+          <div>
+            <h4 className="font-bold text-red-900 mb-1">Ошибка</h4>
+            <p className="text-red-700 text-sm">{error}</p>
+          </div>
+        </div>
+      )}
+
       {isSuccess ? (
         <div className="bg-success-green/10 border-2 border-success-green rounded-lg p-8 text-center">
           <CheckCircle2 className="w-16 h-16 text-success-green mx-auto mb-4" />
           <h3 className="text-2xl font-bold text-navy mb-2">
             Спасибо за обращение!
           </h3>
-          <p className="text-gray">
+          <p className="text-gray mb-4">
             Мы получили ваше сообщение и свяжемся с вами в течение 24 часов.
+          </p>
+          <p className="text-sm text-gray">
+            Перенаправление...
           </p>
         </div>
       ) : (

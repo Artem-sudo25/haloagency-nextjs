@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -11,14 +13,25 @@ import {
   Users,
   DollarSign,
 } from 'lucide-react';
-
-export const metadata = {
-  title: 'Онлайн-реклама Прага - Google Ads, Meta Ads - HaloAgency',
-  description:
-    'Онлайн-реклама на основе данных. Google Ads, Meta (Facebook, Instagram), TikTok. Измеримый ROI и реалистичные ожидания.',
-};
+import { motion } from 'framer-motion';
 
 export default function OnlineAdvertisingPage() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  };
   const platforms = [
     {
       name: 'Google Ads',
@@ -116,7 +129,13 @@ export default function OnlineAdvertisingPage() {
     <div className="min-h-screen">
       {/* Hero */}
       <section className="bg-gradient-to-br from-navy via-[#1a3354] to-[#162840] py-20">
-        <div className="max-w-6xl mx-auto px-4 text-center">
+        <motion.div
+          className="max-w-6xl mx-auto px-4 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
             Реклама на основе данных.{' '}
             <span className="text-coral">Не на надежде.</span>
@@ -128,33 +147,48 @@ export default function OnlineAdvertisingPage() {
           <Link href="/contact">
             <Button
               size="lg"
-              className="bg-coral hover:bg-[#FF5252] text-white px-12 py-6 text-lg"
+              className="bg-coral hover:bg-[#FF5252] text-white px-12 py-6 text-lg hover:scale-110 transition-all"
             >
               Обсудить рекламу
             </Button>
           </Link>
-        </div>
+        </motion.div>
       </section>
 
       {/* Our Approach */}
       <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
+        <motion.div
+          className="max-w-6xl mx-auto px-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-navy mb-4">
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
               Как мы работаем с рекламой
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="p-6 text-center hover:shadow-xl transition">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 text-center hover:shadow-xl hover:scale-105 transition-all duration-300 h-full">
               <BarChart3 className="w-12 h-12 text-coral mx-auto mb-4" />
               <h3 className="font-bold text-navy mb-2">Данные в первую очередь</h3>
               <p className="text-gray text-sm">
                 Не догадки. Решения на основе метрик.
               </p>
             </Card>
+            </motion.div>
 
-            <Card className="p-6 text-center hover:shadow-xl transition">
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 text-center hover:shadow-xl hover:scale-105 transition-all duration-300 h-full">
               <Target className="w-12 h-12 text-gold mx-auto mb-4" />
               <h3 className="font-bold text-navy mb-2">
                 Инфраструктура необходима
@@ -163,8 +197,10 @@ export default function OnlineAdvertisingPage() {
                 Сначала фундамент (сайт + аналитика), потом реклама.
               </p>
             </Card>
+            </motion.div>
 
-            <Card className="p-6 text-center hover:shadow-xl transition">
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 text-center hover:shadow-xl hover:scale-105 transition-all duration-300 h-full">
               <Users className="w-12 h-12 text-success-green mx-auto mb-4" />
               <h3 className="font-bold text-navy mb-2">
                 Реалистичные ожидания
@@ -173,30 +209,46 @@ export default function OnlineAdvertisingPage() {
                 Не "утроим выручку за 2 недели". Честная картина.
               </p>
             </Card>
+            </motion.div>
 
-            <Card className="p-6 text-center hover:shadow-xl transition">
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 text-center hover:shadow-xl hover:scale-105 transition-all duration-300 h-full">
               <TrendingUp className="w-12 h-12 text-navy mx-auto mb-4" />
               <h3 className="font-bold text-navy mb-2">Прозрачная отчётность</h3>
               <p className="text-gray text-sm">
                 Бизнес-метрики, не показатели тщеславия.
               </p>
             </Card>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Platforms */}
       <section className="py-20 bg-off-white">
-        <div className="max-w-6xl mx-auto px-4">
+        <motion.div
+          className="max-w-6xl mx-auto px-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-navy mb-4">
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
               Платформы, с которыми работаем
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {platforms.map((platform, index) => (
-              <Card key={index} className="p-8 hover:shadow-xl transition">
+              <motion.div key={index} variants={itemVariants}>
+                <Card className="p-8 hover:shadow-xl hover:scale-105 transition-all duration-300 h-full">
                 <div className="text-5xl mb-4">{platform.icon}</div>
                 <h3 className="text-2xl font-bold text-navy mb-4">
                   {platform.name}
@@ -222,8 +274,9 @@ export default function OnlineAdvertisingPage() {
                   </div>
                 </div>
               </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           <div className="mt-8 text-center">
             <p className="text-gray">
@@ -231,17 +284,23 @@ export default function OnlineAdvertisingPage() {
               Рекомендуем мультиплатформенный подход
             </p>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* REALISTIC EXPECTATIONS - CRITICAL SECTION */}
       <section className="py-20 bg-white border-t-8 border-coral">
-        <div className="max-w-6xl mx-auto px-4">
+        <motion.div
+          className="max-w-6xl mx-auto px-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="text-center mb-16">
             <div className="inline-block bg-coral text-white px-6 py-2 rounded-full font-bold mb-4">
               ⚠️ КРИТИЧЕСКИ ВАЖНО
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-navy mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
               Что ожидать - честно
             </h2>
             <p className="text-xl text-gray max-w-3xl mx-auto">
@@ -250,9 +309,16 @@ export default function OnlineAdvertisingPage() {
           </div>
 
           {/* Month by Month */}
-          <div className="space-y-6 mb-12">
+          <motion.div
+            className="space-y-6 mb-12"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {monthlyProcess.map((phase, index) => (
-              <Card key={index} className="p-8">
+              <motion.div key={index} variants={itemVariants}>
+                <Card className="p-8 hover:shadow-xl transition-shadow duration-300">
                 <div className="flex flex-col md:flex-row gap-6">
                   <div className="flex-shrink-0">
                     <div
@@ -291,11 +357,19 @@ export default function OnlineAdvertisingPage() {
                   </div>
                 </div>
               </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* What We DON'T Promise vs DO Promise */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <motion.div variants={itemVariants}>
             <Card className="p-8 bg-red-50 border-2 border-red-200">
               <h3 className="text-2xl font-bold text-navy mb-6 flex items-center gap-2">
                 <X className="w-8 h-8 text-red-500" />
@@ -326,8 +400,10 @@ export default function OnlineAdvertisingPage() {
                 </li>
               </ul>
             </Card>
+            </motion.div>
 
-            <Card className="p-8 bg-green-50 border-2 border-success-green">
+            <motion.div variants={itemVariants}>
+              <Card className="p-8 bg-green-50 border-2 border-success-green">
               <h3 className="text-2xl font-bold text-navy mb-6 flex items-center gap-2">
                 <Check className="w-8 h-8 text-success-green" />
                 Что мы обещаем
@@ -359,22 +435,36 @@ export default function OnlineAdvertisingPage() {
                 </li>
               </ul>
             </Card>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Case Studies */}
       <section className="py-20 bg-off-white">
-        <div className="max-w-6xl mx-auto px-4">
+        <motion.div
+          className="max-w-6xl mx-auto px-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-navy mb-4">
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
               Реальные примеры
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {caseStudies.map((study, index) => (
-              <Card key={index} className="p-6 hover:shadow-xl transition">
+              <motion.div key={index} variants={itemVariants}>
+                <Card className="p-6 hover:shadow-xl hover:scale-105 transition-all duration-300 h-full">
                 <h3 className="text-xl font-bold text-navy mb-2">
                   {study.business}
                 </h3>
@@ -398,16 +488,23 @@ export default function OnlineAdvertisingPage() {
 
                 <p className="text-gray text-sm leading-relaxed">{study.story}</p>
               </Card>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Pricing */}
       <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
+        <motion.div
+          className="max-w-6xl mx-auto px-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-navy mb-4">
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
               Структура цен
             </h2>
           </div>
@@ -453,12 +550,18 @@ export default function OnlineAdvertisingPage() {
               </p>
             </Card>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-navy to-[#1a3354]">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+        <motion.div
+          className="max-w-4xl mx-auto px-4 text-center"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="text-4xl font-bold text-white mb-6">
             Готовы к честному разговору о рекламе?
           </h2>
@@ -468,12 +571,12 @@ export default function OnlineAdvertisingPage() {
           <Link href="/contact">
             <Button
               size="lg"
-              className="bg-coral hover:bg-[#FF5252] text-white px-12 py-6 text-lg"
+              className="bg-coral hover:bg-[#FF5252] text-white px-12 py-6 text-lg hover:scale-110 transition-all"
             >
               Обсудить кампанию
             </Button>
           </Link>
-        </div>
+        </motion.div>
       </section>
     </div>
   );

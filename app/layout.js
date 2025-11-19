@@ -2,6 +2,8 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import GoogleTagManager from "./components/GoogleTagManager";
+import CookieConsent from "./components/CookieConsent";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -18,17 +20,22 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata = {
   title: "HaloAgency - Прибыльная онлайн-реклама | Прага",
   description: "Сайты, аналитика и реклама на основе данных. Google, Meta, TikTok кампании с измеримым ROI. Для малого бизнеса в Праге.",
+  keywords: "онлайн реклама, google ads, meta ads, разработка сайтов, аналитика, прага",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="ru">
+      <head>
+        <GoogleTagManager />
+      </head>
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased font-sans`}
       >
         <Header />
         <main>{children}</main>
         <Footer />
+        <CookieConsent />
       </body>
     </html>
   );

@@ -1,36 +1,65 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Phone, Mail, MessageCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 export default function FinalCTA() {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   return (
     <section className="py-20 bg-gradient-to-br from-navy via-[#1a3354] to-[#162840]">
-      <div className="max-w-4xl mx-auto px-4 text-center">
+      <div className="max-w-4xl mx-auto px-4 text-center" ref={ref}>
         {/* Main Headline */}
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+        <motion.h2
+          className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6 }}
+        >
           Готовы к{' '}
           <span className="text-coral">измеримым результатам?</span>
-        </h2>
+        </motion.h2>
 
         {/* Subheadline */}
-        <p className="text-xl md:text-2xl text-gray-200 mb-12 leading-relaxed">
+        <motion.p
+          className="text-xl md:text-2xl text-gray-200 mb-12 leading-relaxed"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           Бесплатная консультация + аудит вашей текущей ситуации
-        </p>
+        </motion.p>
 
         {/* Main CTA */}
-        <div className="mb-12">
+        <motion.div
+          className="mb-12"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
           <Link href="/contact">
             <Button
               size="lg"
-              className="bg-coral hover:bg-[#FF5252] text-white px-12 py-7 text-xl font-bold rounded-lg shadow-2xl hover:shadow-coral/50 transition-all hover:scale-105"
+              className="bg-coral hover:bg-[#FF5252] text-white px-12 py-7 text-xl font-bold rounded-lg shadow-2xl hover:shadow-coral/50 transition-all hover:scale-110"
             >
               Получить бесплатную консультацию
             </Button>
           </Link>
-        </div>
+        </motion.div>
 
         {/* What You Get */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-12 border border-white/20">
+        <motion.div
+          className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-12 border border-white/20"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
           <h3 className="text-2xl font-bold text-white mb-6">
             Что вы получите на консультации:
           </h3>
@@ -75,10 +104,15 @@ export default function FinalCTA() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Contact Options */}
-        <div className="text-white">
+        <motion.div
+          className="text-white"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
           <p className="text-lg mb-6">Или свяжитесь с нами напрямую:</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
@@ -105,14 +139,19 @@ export default function FinalCTA() {
               <span>WhatsApp</span>
             </a>
           </div>
-        </div>
+        </motion.div>
 
         {/* Trust Statement */}
-        <div className="mt-12 pt-8 border-t border-white/20">
+        <motion.div
+          className="mt-12 pt-8 border-t border-white/20"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.6, delay: 1.0 }}
+        >
           <p className="text-gray-300 text-lg">
             Никакого давления. Никаких скрытых платежей. Только честный разговор о вашем бизнесе.
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

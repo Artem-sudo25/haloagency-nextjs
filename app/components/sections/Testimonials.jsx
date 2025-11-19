@@ -1,7 +1,22 @@
+'use client';
+
 import { Card } from '@/components/ui/card';
 import { Star, Quote } from 'lucide-react';
+import { motion } from 'framer-motion';
+import CountUp from 'react-countup';
+import { useInView } from 'react-intersection-observer';
 
 export default function Testimonials() {
+  const { ref: titleRef, inView: titleInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const { ref: metricsRef, inView: metricsInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   const testimonials = [
     {
       quote:
@@ -32,94 +47,130 @@ export default function Testimonials() {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+      },
+    },
+  };
+
   return (
     <section id="testimonials" className="py-20 bg-off-white">
       <div className="max-w-6xl mx-auto px-4">
-        {/* Title */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-navy mb-4">
+        {/* Title with Gradient */}
+        <motion.div
+          ref={titleRef}
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={titleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
             Что говорят клиенты
           </h2>
           <p className="text-xl text-gray max-w-2xl mx-auto">
             Реальные результаты от реальных бизнесов в Праге
           </p>
-        </div>
+        </motion.div>
 
-        {/* Testimonial Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Testimonial Cards with Animation */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12"
+          variants={containerVariants}
+          initial="hidden"
+          animate={titleInView ? 'visible' : 'hidden'}
+        >
           {testimonials.map((testimonial, index) => (
-            <Card
-              key={index}
-              className="p-6 bg-white hover:shadow-xl transition-shadow relative"
-            >
-              {/* Quote Icon */}
-              <div className="absolute -top-4 -left-4 bg-coral w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
-                <Quote className="w-6 h-6 text-white" />
-              </div>
+            <motion.div key={index} variants={cardVariants}>
+              <Card className="p-6 bg-white hover:shadow-2xl hover:scale-105 transition-all duration-300 relative h-full">
+                {/* Quote Icon */}
+                <div className="absolute -top-4 -left-4 bg-coral w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+                  <Quote className="w-6 h-6 text-white" />
+                </div>
 
-              {/* Rating */}
-              <div className="flex gap-1 mb-4 mt-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-5 h-5 fill-gold text-gold"
-                  />
-                ))}
-              </div>
+                {/* Rating */}
+                <div className="flex gap-1 mb-4 mt-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-gold text-gold" />
+                  ))}
+                </div>
 
-              {/* Quote */}
-              <p className="text-gray mb-6 leading-relaxed italic">
-                "{testimonial.quote}"
-              </p>
+                {/* Quote */}
+                <p className="text-gray mb-6 leading-relaxed italic">
+                  "{testimonial.quote}"
+                </p>
 
-              {/* Client Info */}
-              <div className="flex items-start gap-3 border-t border-gray-200 pt-4">
-                <div className="text-4xl">{testimonial.image}</div>
-                <div>
-                  <div className="font-bold text-navy">
-                    {testimonial.name}
-                  </div>
-                  <div className="text-sm text-gray mb-2">
-                    {testimonial.business}
-                  </div>
-                  <div className="inline-block bg-success-green/10 text-success-green text-xs font-bold px-3 py-1 rounded-full">
-                    {testimonial.metric}
+                {/* Client Info */}
+                <div className="flex items-start gap-3 border-t border-gray-200 pt-4">
+                  <div className="text-4xl">{testimonial.image}</div>
+                  <div>
+                    <div className="font-bold text-navy">{testimonial.name}</div>
+                    <div className="text-sm text-gray mb-2">
+                      {testimonial.business}
+                    </div>
+                    <div className="inline-block bg-success-green/10 text-success-green text-xs font-bold px-3 py-1 rounded-full">
+                      {testimonial.metric}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Key Metrics */}
-        <div className="bg-gradient-to-r from-navy to-[#1a3354] rounded-2xl p-8 md:p-12 text-white">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div>
-              <div className="text-5xl md:text-6xl font-bold text-gold mb-2 font-mono">
-                50+
+        {/* Key Metrics with Counter Animation */}
+        <motion.div
+          ref={metricsRef}
+          initial={{ opacity: 0, y: 30 }}
+          animate={metricsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="bg-gradient-to-r from-navy to-[#1a3354] rounded-2xl p-8 md:p-12 text-white hover:scale-105 transition-transform duration-300">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div>
+                <div className="text-5xl md:text-6xl font-bold text-gold mb-2 font-mono">
+                  {metricsInView && <CountUp end={50} duration={2.5} suffix="+" />}
+                  {!metricsInView && '50+'}
+                </div>
+                <div className="text-xl text-gray-200">
+                  Реализованных проектов
+                </div>
               </div>
-              <div className="text-xl text-gray-200">
-                Реализованных проектов
+              <div>
+                <div className="text-5xl md:text-6xl font-bold text-gold mb-2 font-mono">
+                  {metricsInView && (
+                    <CountUp end={3.5} decimals={1} duration={2.5} suffix="x" />
+                  )}
+                  {!metricsInView && '3.5x'}
+                </div>
+                <div className="text-xl text-gray-200">
+                  Средний рост конверсий
+                </div>
               </div>
-            </div>
-            <div>
-              <div className="text-5xl md:text-6xl font-bold text-gold mb-2 font-mono">
-                3.5x
-              </div>
-              <div className="text-xl text-gray-200">
-                Средний рост конверсий
-              </div>
-            </div>
-            <div>
-              <div className="text-5xl md:text-6xl font-bold text-gold mb-2 font-mono">
-                15+
-              </div>
-              <div className="text-xl text-gray-200">
-                Отраслей
+              <div>
+                <div className="text-5xl md:text-6xl font-bold text-gold mb-2 font-mono">
+                  {metricsInView && <CountUp end={15} duration={2.5} suffix="+" />}
+                  {!metricsInView && '15+'}
+                </div>
+                <div className="text-xl text-gray-200">Отраслей</div>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,7 +1,15 @@
+'use client';
+
 import { Card } from '@/components/ui/card';
 import { Calendar, Settings, Rocket, TrendingUp } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 export default function Process() {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
   const steps = [
     {
       number: '1',
@@ -41,26 +49,55 @@ export default function Process() {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+      },
+    },
+  };
+
   return (
     <section id="process" className="py-20 bg-white">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4" ref={ref}>
         {/* Title */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-navy mb-4">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
             Как мы работаем
           </h2>
           <p className="text-xl text-gray max-w-2xl mx-auto">
             Прозрачный процесс от консультации до результатов
           </p>
-        </div>
+        </motion.div>
 
         {/* Steps */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate={inView ? 'visible' : 'hidden'}
+        >
           {steps.map((step, index) => (
-            <Card
-              key={index}
-              className="p-6 hover:shadow-xl transition-shadow relative"
-            >
+            <motion.div key={index} variants={itemVariants}>
+              <Card className="p-6 hover:shadow-xl hover:scale-105 transition-all duration-300 relative h-full">
               {/* Number Badge */}
               <div
                 className={`absolute -top-4 -left-4 w-12 h-12 ${step.color} rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg z-10`}
@@ -93,11 +130,17 @@ export default function Process() {
                 </span>
               </div>
             </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Additional Info */}
-        <div className="mt-12 bg-off-white rounded-2xl p-8">
+        <motion.div
+          className="mt-12 bg-off-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold text-navy mb-2">
@@ -124,7 +167,7 @@ export default function Process() {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

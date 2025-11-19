@@ -1,9 +1,17 @@
+'use client';
+
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Check, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 export default function Pricing() {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
   const packages = [
     {
       name: 'Комплект "Старт"',
@@ -59,30 +67,61 @@ export default function Pricing() {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+      },
+    },
+  };
+
   return (
     <section id="pricing" className="py-20 bg-off-white">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4" ref={ref}>
         {/* Title */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-navy mb-4">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-navy via-coral to-gold bg-clip-text text-transparent">
             Комплексные решения или отдельные услуги
           </h2>
           <p className="text-xl text-gray max-w-2xl mx-auto">
             Выберите то, что подходит вашему бизнесу
           </p>
-        </div>
+        </motion.div>
 
         {/* Package Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12"
+          variants={containerVariants}
+          initial="hidden"
+          animate={inView ? 'visible' : 'hidden'}
+        >
           {packages.map((pkg, index) => (
-            <Card
-              key={index}
-              className={`p-8 relative ${
-                pkg.recommended
-                  ? 'border-4 border-coral shadow-2xl'
-                  : 'border-2 border-gray-200'
-              }`}
-            >
+            <motion.div key={index} variants={itemVariants}>
+              <Card
+                className={`p-8 relative hover:scale-105 transition-transform duration-300 ${
+                  pkg.recommended
+                    ? 'border-4 border-coral shadow-2xl'
+                    : 'border-2 border-gray-200'
+                }`}
+              >
               {/* Recommended Badge */}
               {pkg.recommended && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
@@ -146,11 +185,17 @@ export default function Pricing() {
                 </Button>
               </Link>
             </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Solo Services */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg">
+        <motion.div
+          className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
           <h3 className="text-2xl font-bold text-navy mb-6 text-center">
             Отдельные услуги
           </h3>
@@ -186,7 +231,7 @@ export default function Pricing() {
               </Button>
             </Link>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
