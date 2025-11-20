@@ -83,8 +83,8 @@ ${validatedData.message ? `Сообщение:\n${validatedData.message}` : ''}
       `,
     });
 
-    // Optional: Send confirmation email to user
-    if (process.env.SEND_CONFIRMATION === 'true') {
+    // Send confirmation email to user
+    try {
       await resend.emails.send({
         from: 'HaloAgency <noreply@haloagency.cz>',
         to: validatedData.email,
@@ -107,7 +107,25 @@ ${validatedData.message ? `Сообщение:\n${validatedData.message}` : ''}
             Если у вас возникли вопросы, ответьте на это письмо или напишите нам на info@haloagency.cz
           </p>
         `,
+        text: `
+Здравствуйте, ${validatedData.name}!
+
+Спасибо за обращение в HaloAgency. Мы получили вашу заявку и свяжемся с вами в течение 24 часов.
+
+Ваша заявка:
+- Интересует: ${interestLabel}
+${validatedData.message ? `- Сообщение: ${validatedData.message}` : ''}
+
+С уважением,
+Команда HaloAgency
+
+---
+Если у вас возникли вопросы, ответьте на это письмо или напишите нам на info@haloagency.cz
+        `,
       });
+    } catch (confirmationError) {
+      // Log error but don't fail the request if confirmation email fails
+      console.error('Failed to send confirmation email:', confirmationError);
     }
 
     return NextResponse.json(
